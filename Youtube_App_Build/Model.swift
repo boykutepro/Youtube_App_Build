@@ -8,7 +8,14 @@
 
 import Foundation
 
+protocol ModelDelegate {
+    func videoFetched(_ videos: [Video])
+}
+
 class Model {
+    
+    var delegate: ModelDelegate?
+    
     func getVideos() {
         // Tạo 1 URL
         let url = URL(string: Constants.API_URL)
@@ -35,13 +42,20 @@ class Model {
                 
                 let response = try decoder.decode(Response.self, from: data!)
                 
+                if response.items != nil {
+                    
+                    DispatchQueue.main.async {
+                        // Call the "videosFetched" methodof the delegate
+                        self.delegate?.videoFetched(response.items!)
+                    }
+                   
+                }
+                
                 //Dump: xuất mọi thứ bên trong response lên console để thấy nó có hoạt động hay không
                 dump(response)
             } catch {
                 
             }
-            
-            
             
         }
         
