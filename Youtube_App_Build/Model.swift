@@ -28,7 +28,20 @@ class Model {
                 return
             }
             
-            // Phân tích dữ liệu trả về
+            do  {
+                // Phân tích dữ liệu trả về
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .iso8601
+                
+                let response = try decoder.decode(Response.self, from: data!)
+                
+                //Dump: xuất mọi thứ bên trong response lên console để thấy nó có hoạt động hay không
+                dump(response)
+            } catch {
+                
+            }
+            
+            
             
         }
         
